@@ -22,21 +22,32 @@ const redirect = "./search-results.html";
     location.href = url;
   }
 };
+let x = 0;
+
+ let loadingInt = setInterval(
+   () => {
+     container.innerHTML = "<h1>Loading." + "...".substring(0, x % 3) + "</h1>";
+     x += 1;
+   },
+   250
+ );
 
 form.addEventListener("submit", submitHandler);
-
+let container = document.getElementById("result-content");
 fetch(url).then((response) => {
   if (response.ok) {
     
-    console.log(typeof response.body);
-    //   console.log(response.results)
   }
+  
+ 
   response.json().then((data) => {
+    clearInterval(loadingInt)
+    container.textContent = ""
     console.log(data.results, data);
     let results = data.results;
-    let container = document.getElementById("result-content");
+    
     let lastImgUrl = "";
-    results.forEach((row, i) => {
+    results.forEach((row) => {
       console.log(row);
       // title*, img_url(array)*, date*, subject(array)*, description*, id
 
