@@ -16,36 +16,33 @@ const submitHandler = (e) => {
 
   const search = searchEl.value.trim();
   const format = formatEl.value;
-const redirect = "./search-results.html";
+  const redirect = "./search-results.html";
   if (search !== "Search!" && search) {
     const url = redirect + "?format=" + format + "&q=" + search;
     location.href = url;
   }
 };
+
 let x = 0;
 
- let loadingInt = setInterval(
-   () => {
-     container.innerHTML = "<h1>Loading." + "...".substring(0, x % 3) + "</h1>";
-     x += 1;
-   },
-   250
- );
+let loadingInt = setInterval(() => {
+  container.innerHTML = "<h1>Loading." + "...".substring(0, x % 3) + "</h1>";
+  x += 1;
+}, 250);
 
 form.addEventListener("submit", submitHandler);
 let container = document.getElementById("result-content");
+
 fetch(url).then((response) => {
   if (response.ok) {
-    
   }
-  
- 
+
   response.json().then((data) => {
-    clearInterval(loadingInt)
-    container.textContent = ""
+    clearInterval(loadingInt);
+    container.textContent = "";
     console.log(data.results, data);
     let results = data.results;
-    
+
     let lastImgUrl = "";
     results.forEach((row) => {
       console.log(row);
@@ -69,9 +66,14 @@ fetch(url).then((response) => {
 
       //set img src to last full image_url
       let imgURL = lastImgUrl;
-      imgEl.src = (imgURL === 'https://www.loc.gov/static/images/original-format/group-of-images.svg' || !imgURL) ? 'https://pbs.twimg.com/media/E1VGfdXVkAAZMml.jpg' : imgURL
-      imgEl.width = 250
-      imgEl.height = 200
+      imgEl.src =
+        imgURL ===
+          "https://www.loc.gov/static/images/original-format/group-of-images.svg" ||
+        !imgURL
+          ? "https://pbs.twimg.com/media/E1VGfdXVkAAZMml.jpg"
+          : imgURL;
+      imgEl.width = 250;
+      imgEl.height = 200;
       cardEl.append(imgEl);
 
       //create date & append
